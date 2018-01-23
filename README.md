@@ -1,4 +1,4 @@
-# Image Classifier Using Tensorflow
+# Image Classifier Using Tensorflow/ Inception-v3
 
 Tensorflow Image classifer built by retraining Inceptionv3.
 
@@ -9,6 +9,42 @@ Tensorflow Image classifer built by retraining Inceptionv3.
 - Tensorflow v1.2.0 (As of compilation of document)
 
 
+### Getting started
+
+First off, we need to setup our project folder with all the contents required for running the train script.
+
+Run the following commands to clone the TensorFlow repository within this folder.
+
+`$ git clone https://github.com/tensorflow/tensorflow/`
+
+`$ mkdir inception`
+
+`$ mkdir bottlenecks`
+
+`$ mkdir trained_model`
+
+`$ mkdir data`
+
+`$ mkdir data/cat `
+
+`$ mkdir data/dog `
+
+Split your data into train and test and put it as the following structure
+
+> data
+>
+> > cat
+>
+> > > Images for cats
+>
+> > dog
+>
+> > > Images for dogs
+
+For ease of data availabilty, I will be using the renowned Dogs vs. Cats data set from [here](https://www.kaggle.com/c/dogs-vs-cats)
+
+Once we have all the needed folders and the necessary data to train on, we can begin training. Beware, the data you will download has all images under one folder. You will have to copy the pictures of dogs into the `data/dog` and cat pictures to `data/cat` . Replace the foldernames and content with the images and classnames of the images you're trying to classify. The foldername 
+
 ## How To Train
 
 Make sure Tensorflow gets imported into python without any errors.
@@ -17,8 +53,10 @@ Make sure Tensorflow gets imported into python without any errors.
 
 Execute command on terminal from within folder:
 
+Substitute `python` with `python3` if python3 isn't your default python.
+
 ```shell
-python tensorflow/examples/image_retraining/retrain.py --bottleneck_dir=bottlenecks/ --how_many_training_steps 12000 --model_dir=inception/ --output_graph=trained_model/unoptimized_model.pb --output_labels=trained_model/labels.txt --image_dir data/train
+python tensorflow/tensorflow/examples/image_retraining/retrain.py --bottleneck_dir=bottlenecks/ --how_many_training_steps 500 --model_dir=inception/ --output_graph=trained_model/unoptimized_model.pb --output_labels=trained_model/labels.txt --image_dir=data/
 ```
 
 #### Arguments
@@ -57,20 +95,6 @@ python tensorflow/examples/image_retraining/retrain.py --bottleneck_dir=bottlene
 - Point path to ImageDirectory
 - IMPORTANT! Only jpg files should be added to training folder
 
-Data
-
-> Class 1
->
-> > Images for Class 1
->
-> Class 2
->
-> > Images for Class 2
->
-> Class 3
->
-> > Images for Class 3
-
 
 
 #### Troubleshooting
@@ -85,9 +109,23 @@ Data
 - Increase number of steps
 
 
-## Theory
 
 
+## Testing/Predicting the class given an image
+
+To test the classifier against an image of your choice, run the following script with the path to as an argument. 
+
+```bash
+python test/test_single.py <path to image> trained_model/unoptimized_model.pb trained_model/labels.txt
+```
+
+The class and its confidence will be shown on the terminal. Thats it! you're done with image classification :)
+
+
+
+## Theory 
+
+This isn't absolutely necessary to read, but its good to know what each argument does or what happens in the actual process of training. Read along to know more.
 
 ### Bottlenecks
 
@@ -142,10 +180,3 @@ You enable these distortions by passing `--random_crop`, `--random_scale` and `-
 For more information:
 
 https://www.tensorflow.org/tutorials/image_retraining
-
-
-
-PSA
-
-Do not run ntest.py from within the folder as the Folder tensorflow nested within would get imported in python and cause errors in importing.
-
