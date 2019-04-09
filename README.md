@@ -1,44 +1,40 @@
 # Image Classifier Using Tensorflow/ Inception-v3
 
-Tensorflow Image classifer built by retraining Inceptionv3.
+Tensorflow Image classifer built by transfer learning on Inceptionv3 architecture.
 
-##### Dependencies
-
-- Python 3
-
-- Tensorflow v1.2.0 (As of compilation of document)
+This method does not need a GPU and can produce very accurate results in a very short time. (depending on the number of images)
 
 
 ### Getting started
 
 First off, we need to setup our project folder with all the contents required for running the train script.
 
-Run the following commands to clone the TensorFlow repository within this folder.
+Run the following commands to clone the repo and setup the basic folder structure.
 
-`$ git clone https://github.com/tensorflow/tensorflow/`
-
-`$ mkdir inception`
-
-`$ mkdir bottlenecks`
-
-`$ mkdir trained_model`
-
-`$ mkdir data`
-
-`$ mkdir data/cat `
-
-`$ mkdir data/dog `
+```bash
+git clone https://github.com/arjun921/image-classification-for-dummies.git
+cd image-classification-for-dummies
+mkdir inception
+mkdir bottlenecks
+mkdir trained_model
+mkdir data
+mkdir data/cat
+mkdir data/dog
+pipenv install --skip-lock
+# if pipenv command not found, install using `pip3 install pipenv` and rerun `pipenv install`
+pipenv shell
+```
 
 Split your data into train and test and put it as the following structure
 
 > data
 >
 > > cat
->
+> >
 > > > Images for cats
->
+> >
 > > dog
->
+> >
 > > > Images for dogs
 
 For ease of data availabilty, I will be using the renowned Dogs vs. Cats data set from [here](https://www.kaggle.com/c/dogs-vs-cats)
@@ -53,10 +49,13 @@ Make sure Tensorflow gets imported into python without any errors.
 
 Execute command on terminal from within folder:
 
-Substitute `python` with `python3` if python3 isn't your default python.
-
-```shell
-python tensorflow/tensorflow/examples/image_retraining/retrain.py --bottleneck_dir=bottlenecks/ --how_many_training_steps 500 --model_dir=inception/ --output_graph=trained_model/unoptimized_model.pb --output_labels=trained_model/labels.txt --image_dir=data/
+```bash
+python3 tf_retrain.py --bottleneck_dir=bottlenecks/ \
+--how_many_training_steps 500 \
+--model_dir=inception/ \
+--output_graph=trained_model/unoptimized_model.pb \
+--output_labels=trained_model/labels.txt \
+--image_dir=data/
 ```
 
 #### Arguments
@@ -103,12 +102,11 @@ python tensorflow/tensorflow/examples/image_retraining/retrain.py --bottleneck_d
 
 #### How to Improve Training
 
-- Run Same command as retrain. 
-- Use old bottleneck directory.
-- Add images to respective class directory to improve accuracy
+- Run Same command as Train. 
+- Ensure to use old bottleneck directory to reduce time taken
+- Add more images to respective class directory to improve accuracy
 - Increase number of steps
-
-
+- Ensure data is clean and doesn't have false positives
 
 
 ## Testing/Predicting the class given an image
@@ -116,12 +114,10 @@ python tensorflow/tensorflow/examples/image_retraining/retrain.py --bottleneck_d
 To test the classifier against an image of your choice, run the following script with the path to as an argument. 
 
 ```bash
-python test/test_single.py <path to image> trained_model/unoptimized_model.pb trained_model/labels.txt
+python3 tf_test.py <path to image> trained_model/unoptimized_model.pb trained_model/labels.txt
 ```
 
 The class and its confidence will be shown on the terminal. Thats it! you're done with image classification :)
-
-
 
 ## Theory 
 
