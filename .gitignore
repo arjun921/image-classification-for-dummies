@@ -104,3 +104,10 @@ venv.bak/
 .mypy_cache/
 
 .DS_Store
+
+# project folders
+bottlenecks
+inception
+train_data
+trained_model
+trained_model_serving

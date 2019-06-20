@@ -17,6 +17,7 @@ cd image-classification-for-dummies
 mkdir inception
 mkdir bottlenecks
 mkdir trained_model
+mkdir trained_model_serving
 mkdir data
 mkdir data/cat
 mkdir data/dog
@@ -57,6 +58,21 @@ python3 tf_retrain.py --bottleneck_dir=bottlenecks/ \
 --output_labels=trained_model/labels.txt \
 --image_dir=data/
 ```
+
+For tensorflow serving
+
+```bash
+python3 retrain_serving.py  \
+--bottleneck_dir=bottlenecks/  \
+--how_many_training_steps 100  \
+--model_dir=inception/  \
+--output_graph=trained_model/unoptimized_model.pb  \
+--output_labels=trained_model/labels.txt  \
+--image_dir=train_data/train/  \
+--saved_model_dir=trained_model_serving/1
+```
+
+
 
 #### Arguments
 
